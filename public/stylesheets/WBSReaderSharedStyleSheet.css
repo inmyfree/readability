@@ -1,0 +1,153 @@
+h1 {
+    font-size: 1.25em;
+}
+
+h2 {
+    font-size: 1.125em;
+}
+
+h3 {
+    font-size: 1.05em;
+}
+
+h4, h5, h6 {
+    font-size: 1em;
+    margin: 1em 0;
+}
+
+figure {
+    margin: 0;
+}
+
+.page.rtl {
+    direction: rtl;
+}
+
+#article {
+    text-rendering: optimizeLegibility;
+}
+
+#article pre {
+    white-space: pre-wrap;
+}
+
+#article * {
+    /* Scale down anything larger than our view. Max-width maintains aspect ratios on images. */
+    max-width: 100%;
+}
+
+#article img {
+    /* By default, images are centered on their own line. */
+    margin: 0.5em auto;
+    display: block;
+    height: auto;
+}
+
+#article img.reader-image-tiny {
+    display: inline;
+    margin: 0;
+}
+
+#article .leading-image, figure, .auxiliary {
+    margin-bottom: .25em;
+}
+
+#article .leading-image img {
+    margin: auto;
+    display: block;
+    clear: both;
+}
+
+#article .leading-image img.full-width {
+    width: 100%;
+}
+
+#article .leading-image .credit {
+    margin: 0;
+    text-align: right;
+}
+
+#article .leading-image .caption,
+#article .leading-image .credit,
+#article figcaption,
+#article .auxiliary figcaption {
+    font-size: 0.75em;
+    line-height: 1.5em;
+    margin-top: 1em;
+    width: 100%;
+}
+
+#article .leading-image .credit + .caption {
+    margin-top: 0.1em;
+}
+
+#article .auxiliary {
+    display: block;
+    clear: both;
+    font-size: 0.75em;
+    line-height: 1.4em;
+    text-align: start;
+}
+
+#article .auxiliary img, #article .auxiliary > *:first-child {
+    margin: 0;
+}
+
+/* If the element immediately after an image is inline, it might bump up against the image. */
+#article .auxiliary img + * {
+    display: block;
+}
+
+#article .auxiliary figcaption {
+    font-size: 100%;
+}
+
+#article .auxiliary * {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#article .float.left {
+    float: left;
+    margin-right: 20px;
+}
+
+#article .float.right {
+    float: right;
+    margin-left: 20px;
+}
+
+#article .clear {
+    clear: both;
+}
+
+/* Collapse excess whitespace. */
+.page p > p:empty,
+.page div > p:empty,
+.page p > div:empty,
+.page div > div:empty,
+.page p + br,
+.page p > br:only-child,
+.page div > br:only-child,
+.page img + br
+{
+    display: none;
+}
+
+.title {
+    display: none;
+}
+
+.page:first-of-type .title {
+    display: block;
+}
+
+.page table {
+    font-size: 0.9em;
+    text-align: start;
+    word-wrap: break-word;
+}
+
+.page a {
+    text-decoration: none;
+}

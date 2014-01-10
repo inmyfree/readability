@@ -1,0 +1,396 @@
+<html >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title><%= title %></title>
+
+    <link rel="stylesheet" type="text/css" href="./stylesheets/WBSReaderSharedStyleSheet.css">
+    <style id="article-content">
+        @media print {
+            .original-url {
+                display: none;
+            }
+        }
+
+        h1.title {
+            font-weight: normal;
+            font-size: 1.5em;
+            line-height: 1.25em;
+            color: rgb(75, 75, 75);
+            text-align: start;
+            -webkit-hyphens: manual;
+        }
+
+        blockquote {
+            color: rgba(0, 0, 0, 0.5);
+            margin: 1em 30px 1em 30px;
+            font-weight: lighter;
+        }
+
+        .page a {
+            color: rgb(65, 110, 210);
+        }
+
+        .page a:visited {
+            color: rgb(65, 110, 210);
+        }
+
+        #article img {
+            border: 1px inset rgba(0, 0, 0, 0.1);
+        }
+
+        #article img.reader-image-tiny {
+            border: none;
+        }
+
+        #article .leading-image, #article figure, #article .auxiliary {
+            font-family: HelveticaNeue, Helvetica, sans-serif;
+            color: rgb(155, 155, 155);
+        }
+
+        .page {
+            font: 20px Georgia, serif;
+            line-height: 160%;
+        }
+
+        hr {
+            background: rgb(206, 206, 206);
+            height: 1px;
+            border: 0;
+        }
+
+        @media screen and (max-device-width: 480px) {
+            .page {
+                text-align: start;
+            }
+        }
+    </style>
+    <style id="reader-ui">
+    @media screen {
+        /* Rules responsible for the Reader page expanding to fill the window. */
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: calc(100% - 58px);
+        }
+
+        body:after {
+            content: "";
+            height: 22px;
+            display: block;
+        }
+
+        #article {
+            min-height: 100%;
+        }
+        /* End of rules responsible for the Reader page expanding to fill the window. */
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            -webkit-user-select: none;
+            overflow-x: hidden;
+            background-color: rgba(230, 230, 230, 1);
+        }
+
+        .cached embed, .cached applet, .cached object {
+            display: none !important;
+        }
+
+        #article {
+            background: rgb(251, 251, 251);
+            background-size: 640px 254px;
+            max-width: 800px;
+            margin: 22px auto 0 auto;
+            padding-top: 12px;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+            overflow-x: hidden;
+            z-index: 0;
+            outline: none;
+            pointer-events: auto;
+            -webkit-user-select: auto;
+            -webkit-font-smoothing: subpixel-antialiased;
+        }
+
+        .page-number {
+            display: none;
+        }
+
+        .page:only-of-type .page-number {
+            display: none;
+        }
+
+        .page-number {
+            display: block;
+            font: bold 11px Helvetica, sans-serif;
+            color: #aaaaaa;
+            position: absolute;
+            right: 50px;
+            top: 15px;
+            -webkit-user-select: none;
+            cursor: default;
+            text-align: right;
+        }
+
+        .page {
+            max-width: 658px;
+            margin-left: auto;
+            margin-right: auto;
+            color: rgb(65, 65, 65);
+            padding: 45px 53px;
+            position: relative;
+            overflow: hidden;
+            -webkit-transition: height .5s ease-out;
+
+            border-bottom: 1px solid rgb(206, 206, 206);
+            margin-right: 17px;
+            margin-left: 17px;
+        }
+
+        .page:last-of-type {
+            border-bottom: none;
+        }
+
+        #incoming-page-placeholder {
+            height: 30px;
+            margin-bottom: 0;
+        }
+        
+        #incoming-page-corner {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+        }
+        
+        #incoming-page-spinner {
+            width: 16px;
+            height: 16px;
+            float: right;
+            background-size: 16px 16px;
+        }
+
+        #incoming-page-text {
+            float: right;
+            margin-top: 2px;
+            margin-left: 8px;
+            color: #B2B2B2;
+            font: bold 11px Helvetica, sans-serif;
+            -webkit-user-select: none;
+        }
+                        
+        #next-page-container {
+            position:absolute;
+            display: none;
+        }
+
+        #controls {
+            position: absolute;
+            margin: 7px 0 0 60px;
+            padding: 0;
+            -webkit-user-select: none;
+            z-index: 100;
+        }
+
+        #controls * {
+            float: left;
+        }
+
+        #controls button {
+            display: block;
+            border: 0;
+            padding: 0;
+            width: 27px;
+            height: 28px;
+            background-size: 27px 28px;
+            background-repeat: no-repeat;
+            background-color: transparent;
+        }
+
+        .no-transition {
+            -webkit-transition: none !important;
+        }
+
+        /* These keyframes try to reproduce the 12 discrete steps seen in a standard system progress indicator. */
+        @-webkit-keyframes discreteSpinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            8.332% {
+                -webkit-transform: rotate(0deg);
+            }
+            8.333% {
+                -webkit-transform: rotate(30deg);
+            }
+            16.665% {
+                -webkit-transform: rotate(30deg);
+            }
+            16.666% {
+                -webkit-transform: rotate(60deg);
+            }
+            24.999% {
+                -webkit-transform: rotate(60deg);
+            }
+            25.000% {
+                -webkit-transform: rotate(90deg);
+            }
+            33.332% {
+                -webkit-transform: rotate(90deg);
+            }
+            33.333% {
+                -webkit-transform: rotate(120deg);
+            }
+            41.665% {
+                -webkit-transform: rotate(120deg);
+            }
+            41.666% {
+                -webkit-transform: rotate(150deg);
+            }
+            49.999% {
+                -webkit-transform: rotate(150deg);
+            }
+            50.000% {
+                -webkit-transform: rotate(180deg);
+            }
+            58.332% {
+                -webkit-transform: rotate(180deg);
+            }
+            58.333% {
+                -webkit-transform: rotate(210deg);
+            }
+            66.665% {
+                -webkit-transform: rotate(210deg);
+            }
+            66.666% {
+                -webkit-transform: rotate(240deg);
+            }
+            74.999% {
+                -webkit-transform: rotate(240deg);
+            }
+            75.000% {
+                -webkit-transform: rotate(270deg);
+            }
+            83.332% {
+                -webkit-transform: rotate(270deg);
+            }
+            83.333% {
+                -webkit-transform: rotate(300deg);
+            }
+            91.665% {
+                -webkit-transform: rotate(300deg);
+            }
+            91.666% {
+                -webkit-transform: rotate(330deg);
+            }
+            100% {
+                -webkit-transform: rotate(330deg);
+            }
+        }
+        
+        .animation-discrete-spinner {
+            -webkit-animation-name: discreteSpinner;
+            -webkit-animation-duration: 1s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-timing-function: linear;
+        }
+    }
+
+
+
+    .java
+    {
+        font-family: Monaco, DejaVu Sans Mono, Bitstream Vera Sans Mono, Consolas, Courier New, monospace;
+        font-size: 12px;
+        background-color: transparent;
+        width: 97%;
+        overflow: auto;
+        margin-left: 9px;
+        padding: 1px; /* adds a little border on top when controls are hidden */
+        word-break: break-all;
+        word-wrap: break-word;
+    }
+
+    pre ol
+    {
+        border: 1px solid #D1D7DC;
+        list-style: decimal; /* for ie */
+        background-color: #fff;
+        margin: 0px 0px 1px 0px; /* 1px bottom margin seems to fix occasional Firefox scrolling */
+        padding: 2px 0;
+        color: #2B91AF;
+    }
+
+    pre  ol li,
+    pre  .columns div
+    {
+        border-left: 1px solid #D1D7DC;
+        background-color: #FAFAFA;
+        padding-left: 10px;
+        line-height: 18px;
+        margin: 0 0 0 38px;
+    }
+
+    pre  .columns
+    {
+        color: gray;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    pre  .columns div
+    {
+        padding-bottom: 5px;
+    }
+
+    pre  ol li span
+    {
+        color: Black;
+    }
+
+    /* Styles for the tools */
+
+    pre  .tools
+    {
+        padding: 3px;
+        text-align: left;
+        margin: 0;
+        color: black;
+        font-weight: bold;
+    }
+
+    /* About dialog styles */
+
+    pre .dp-about { background-color: #fff; margin: 0px; padding: 0px; }
+    pre .dp-about table { width: 100%; height: 100%; font-size: 11px; font-family: Tahoma, Verdana, Arial, sans-serif !important; }
+    pre .dp-about td { padding: 10px; vertical-align: top; }
+    pre .dp-about .copy { border-bottom: 1px solid #ACA899; height: 95%; }
+    pre .dp-about .title { color: red; font-weight: bold; }
+    pre .dp-about .para { margin: 0 0 4px 0; }
+    pre .dp-about .footer { background-color: #ECEADB; border-top: 1px solid #fff; text-align: right; }
+    pre .dp-about .close { font-size: 11px; font-family: Tahoma, Verdana, Arial, sans-serif !important; background-color: #ECEADB; width: 60px; height: 22px; }
+
+    /* Language specific styles */
+
+    pre .java .comment, .dp-highlighter .comments { color: #008200; padding: 0; margin: 0; width: auto; border: 0}
+    pre .java .string { color: blue; }
+    pre .java .keyword { color: #7f0055; font-weight: bold; }
+    pre .java .preprocessor { color: gray; }
+
+
+    </style>
+    <script src="./javascripts/localizedStrings.js"></script>
+</head>
+<body >
+   
+    <div id="article" tabindex="0" role="article" style="-webkit-locale: zh-Hans; border-bottom-width: 0px;">
+        <!-- This node will contain a number of 'page' class divs. -->
+    <div class="page" style="font-family: Georgia, Palatino, Times, 'Times New Roman', serif; font-size: 15px; line-height: 25px;">
+        <h1 class="title"><%- title %></h1>
+        <%- content %>
+    </div>
+    </div>
+    
+
+</body></html>
