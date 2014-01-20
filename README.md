@@ -1,7 +1,7 @@
 readability
 ===========
 
-update **add mobile screen option initial-scale**
+update : **add mobile screen option initial-scale**
 
 readability
 
