@@ -1,6 +1,8 @@
 readability
 ===========
 
+update **add mobile screen option initial-scale**
+
 readability
 
 #DEMO FOR node-readability 
