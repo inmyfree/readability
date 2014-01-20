@@ -34,7 +34,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+app.get('/', readability.initRouter);
 app.get('/users', user.list);
 app.get('/fkrenyao',fkrenyao.demo);
 
